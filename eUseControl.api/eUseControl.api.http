@@ -1,0 +1,6 @@
+@eUseControl.api_HostAddress = http://localhost:5032
+
+GET {{eUseControl.api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
