@@ -1,0 +1,12 @@
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/bin/Debug/net10.0/eUseControl.Domain.deps.json
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/bin/Debug/net10.0/eUseControl.Domain.dll
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/bin/Debug/net10.0/eUseControl.Domain.pdb
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/obj/Debug/net10.0/eUseControl.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/obj/Debug/net10.0/eUseControl.Domain.AssemblyInfoInputs.cache
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/obj/Debug/net10.0/eUseControl.Domain.AssemblyInfo.cs
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/obj/Debug/net10.0/eUseControl.Domain.csproj.CoreCompileInputs.cache
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/obj/Debug/net10.0/eUseControl.Domain.sourcelink.json
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/obj/Debug/net10.0/eUseControl.Domain.dll
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/obj/Debug/net10.0/refint/eUseControl.Domain.dll
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/obj/Debug/net10.0/eUseControl.Domain.pdb
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Domain/obj/Debug/net10.0/ref/eUseControl.Domain.dll
