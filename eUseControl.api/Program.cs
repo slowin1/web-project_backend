@@ -1,5 +1,3 @@
-using MongoDB.Driver;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -14,21 +12,6 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
-});
-
-builder.Services.AddSingleton<IMongoClient>(_ =>
-{
-    var connectionString = builder.Configuration["MongoDbSettings:ConnectionString"];
-    var settings = MongoClientSettings.FromConnectionString(connectionString);
-    settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-    return new MongoClient(settings);
-});
-
-builder.Services.AddSingleton(sp =>
-{
-    var client = sp.GetRequiredService<IMongoClient>();
-    var databaseName = builder.Configuration["MongoDbSettings:DatabaseName"];
-    return client.GetDatabase(databaseName);
 });
 
 var app = builder.Build();

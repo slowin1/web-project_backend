@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eUseControl.api.controllers;
 
-public class ServicesController : Controller
+[Route("api/[controller]")]
+[ApiController]
+public class ServicesController : ControllerBase
 {
-    // GET
-    public IActionResult Index()
+    [HttpGet ("service")]
+    public IActionResult Service()
     {
-        return View();
+        return Ok("привет");
     }
 }
