@@ -1,0 +1,12 @@
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/bin/Debug/net10.0/eUseControl.Api.deps.json
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/bin/Debug/net10.0/eUseControl.Api.dll
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/bin/Debug/net10.0/eUseControl.Api.pdb
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/obj/Debug/net10.0/eUseControl.Api.GeneratedMSBuildEditorConfig.editorconfig
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/obj/Debug/net10.0/eUseControl.Api.AssemblyInfoInputs.cache
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/obj/Debug/net10.0/eUseControl.Api.AssemblyInfo.cs
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/obj/Debug/net10.0/eUseControl.Api.csproj.CoreCompileInputs.cache
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/obj/Debug/net10.0/eUseControl.Api.sourcelink.json
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/obj/Debug/net10.0/eUseControl.Api.dll
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/obj/Debug/net10.0/refint/eUseControl.Api.dll
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/obj/Debug/net10.0/eUseControl.Api.pdb
+/Users/slaviknagoranskij/RiderProjects/backend/eUseControl.Api/obj/Debug/net10.0/ref/eUseControl.Api.dll

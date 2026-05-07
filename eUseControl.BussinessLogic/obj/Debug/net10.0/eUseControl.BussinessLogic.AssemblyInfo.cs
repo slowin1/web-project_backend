@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("eUseControl.BussinessLogic")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f1e7538d8d84afeb5545437a2ed8a9ef0a78881e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ce31905ea790001c8bf08f2f004bae6a2a11e8bc")]
 [assembly: System.Reflection.AssemblyProductAttribute("eUseControl.BussinessLogic")]
 [assembly: System.Reflection.AssemblyTitleAttribute("eUseControl.BussinessLogic")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
