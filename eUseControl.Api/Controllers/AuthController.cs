@@ -30,7 +30,7 @@ public class AuthController : ControllerBase
         }
         catch (InvalidOperationException exception)
         {
-            return BadRequest(exception.Message);
+            return new JsonResult(new { message = exception.Message }) { StatusCode = 400 };
         }
     }
 
@@ -38,6 +38,6 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
     {
         var user = await _registerFlow.LoginAsync(dto);
-        return user is null ? Unauthorized("Неверный логин или пароль") : Ok(user);
+        return user is null ? new JsonResult(new { message = "Неверный логин или пароль" }) { StatusCode = 401 } : Ok(user);
     }
 }

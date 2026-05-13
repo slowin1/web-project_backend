@@ -45,8 +45,21 @@ public class RegisterActions
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.UserName == userName);
 
-        if (user is null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
+        if (user is null)
         {
+            return null;
+        }
+
+        try
+        {
+            if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
+            {
+                return null;
+            }
+        }
+        catch
+        {
+            // If stored password is in an unexpected format, treat as authentication failure
             return null;
         }
 
