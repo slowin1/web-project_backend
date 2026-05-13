@@ -1,5 +1,6 @@
+using eUseControl.BussinessLogic.Functions.Auth;
+using eUseControl.Domain.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using eUseControl.Api.DTO.Auth;
 
 namespace eUseControl.Api.Controllers;
 
@@ -7,27 +8,36 @@ namespace eUseControl.Api.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    [HttpPost("register")]
-    public IActionResult Register([FromBody] RegisterDto dto)
+    private readonly IRegisterFlow _registerFlow;
+
+    public AuthController(IRegisterFlow registerFlow)
     {
-        return Ok();
+        _registerFlow = registerFlow;
+    }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] UserRegisterDto dto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var user = await _registerFlow.RegisterAsync(dto);
+            return Ok(user);
+        }
+        catch (InvalidOperationException exception)
+        {
+            return BadRequest(exception.Message);
+        }
     }
 
     [HttpPost("login")]
-    public IActionResult Login([FromBody] LoginDto dto)
+    public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
     {
-        return Ok();
-    }
-
-    [HttpPost("forgot-password")]
-    public IActionResult ForgotPassword([FromBody] ForgotPassDto dto)
-    {
-        return Ok();
-    }
-
-    [HttpPost("reset-password")]
-    public IActionResult ResetPassword([FromBody] ResetPassword dto)
-    {
-        return Ok();
+        var user = await _registerFlow.LoginAsync(dto);
+        return user is null ? Unauthorized("Неверный логин или пароль") : Ok(user);
     }
 }
