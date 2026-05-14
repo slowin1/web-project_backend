@@ -25,7 +25,7 @@ public class UserData
         [StringLength(50), MinLength(5)]
         public string Email { get; set; } = string.Empty;
         [Required]
-        [StringLength(50), MinLength(5)]
+        [StringLength(100), MinLength(5)]
         public string Password { get; set; } = string.Empty;
         [Required]
         [StringLength(50), MinLength(5)]

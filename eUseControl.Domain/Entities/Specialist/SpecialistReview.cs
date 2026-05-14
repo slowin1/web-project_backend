@@ -24,12 +24,14 @@ public class SpecialistReview
     
     //
     [Required]
-    [StringLength(5), MinLength(1)]
+    [StringLength(100)]
     public string ClientId { get; set; } = string.Empty;
     
 
     public UserData Client { get; set; } = null!;
     
+    [Required]
+    [StringLength(100)]
     public string BookingId { get; set; } = string.Empty;
     public ServiceBookingData? Booking { get; set; } = null!;
     
