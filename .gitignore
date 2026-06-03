@@ -4,3 +4,4 @@
 .vtcode/
 vtcode.toml
 eUseControl.Api/appsettings.json
+eUseControl.Api/appsettings.Development.json
