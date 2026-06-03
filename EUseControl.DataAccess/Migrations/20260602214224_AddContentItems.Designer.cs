@@ -3,6 +3,7 @@ using System;
 using EUseControl.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EUseControl.DataAccess.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20260602214224_AddContentItems")]
+    partial class AddContentItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace EUseControl.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ServiceDataSpecialistData", b =>
+                {
+                    b.Property<string>("ServicesId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SpecialistDataId")
+                        .HasColumnType("text");
+
+                    b.HasKey("ServicesId", "SpecialistDataId");
+
+                    b.HasIndex("SpecialistDataId");
+
+                    b.ToTable("ServiceDataSpecialistData");
+                });
 
             modelBuilder.Entity("eUseControl.Domain.Entities.Specialist.SpecialistData", b =>
                 {
@@ -130,11 +148,6 @@ namespace EUseControl.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text");
 
-                    b.Property<string>("Device")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("character varying(40)");
-
                     b.Property<DateTime>("LoginDataTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -143,36 +156,10 @@ namespace EUseControl.DataAccess.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
 
-                    b.Property<DateTime?>("LogoutDataTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("PagePath")
-                        .IsRequired()
-                        .HasMaxLength(240)
-                        .HasColumnType("character varying(240)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("character varying(40)");
-
-                    b.Property<int?>("SessionDurationSeconds")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Source")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("character varying(40)");
-
                     b.Property<string>("UserIp")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
-
-                    b.Property<string>("VisitorId")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("character varying(80)");
 
                     b.HasKey("Id");
 
@@ -283,60 +270,6 @@ namespace EUseControl.DataAccess.Migrations
                     b.ToTable("ContentItems");
                 });
 
-            modelBuilder.Entity("eUseControl.Domain.Entities.services.CompletedSpecialistServiceData", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("BookingDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("BookingId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClientName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClientPhone")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CompletedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(10, 2)");
-
-                    b.Property<string>("ServiceId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ServiceName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("SpecialistId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("SpecialistName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookingId")
-                        .IsUnique();
-
-                    b.HasIndex("CompletedOn");
-
-                    b.HasIndex("SpecialistId");
-
-                    b.ToTable("CompletedSpecialistServices", (string)null);
-                });
-
             modelBuilder.Entity("eUseControl.Domain.Entities.services.ServiceBookingData", b =>
                 {
                     b.Property<string>("Id")
@@ -362,26 +295,12 @@ namespace EUseControl.DataAccess.Migrations
                     b.Property<DateTime>("BookingTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("ClientUserId")
+                    b.Property<string>("UserDataId")
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("CompletedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("SpecialistConfirmedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("SpecialistId")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientUserId");
-
-                    b.HasIndex("SpecialistId");
+                    b.HasIndex("UserDataId");
 
                     b.ToTable("Bookings");
                 });
@@ -522,6 +441,21 @@ namespace EUseControl.DataAccess.Migrations
                     b.ToTable("TimeSlots");
                 });
 
+            modelBuilder.Entity("ServiceDataSpecialistData", b =>
+                {
+                    b.HasOne("eUseControl.Domain.Entities.services.ServiceData", null)
+                        .WithMany()
+                        .HasForeignKey("ServicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eUseControl.Domain.Entities.Specialist.SpecialistData", null)
+                        .WithMany()
+                        .HasForeignKey("SpecialistDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("eUseControl.Domain.Entities.Specialist.SpecialistData", b =>
                 {
                     b.HasOne("eUseControl.Domain.Entities.User.UserData", "User")
@@ -564,8 +498,7 @@ namespace EUseControl.DataAccess.Migrations
                 {
                     b.HasOne("eUseControl.Domain.Entities.User.UserData", null)
                         .WithMany("ServiceBookingData")
-                        .HasForeignKey("ClientUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("UserDataId");
                 });
 
             modelBuilder.Entity("eUseControl.Domain.Entities.services.ServiceData", b =>

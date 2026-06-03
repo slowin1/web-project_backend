@@ -3,6 +3,7 @@ using System;
 using EUseControl.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EUseControl.DataAccess.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20260603113413_AddAnalyticsAndSpecialistBookingWorkflow")]
+    partial class AddAnalyticsAndSpecialistBookingWorkflow
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace EUseControl.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ServiceDataSpecialistData", b =>
+                {
+                    b.Property<string>("ServicesId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SpecialistDataId")
+                        .HasColumnType("text");
+
+                    b.HasKey("ServicesId", "SpecialistDataId");
+
+                    b.HasIndex("SpecialistDataId");
+
+                    b.ToTable("ServiceDataSpecialistData");
+                });
 
             modelBuilder.Entity("eUseControl.Domain.Entities.Specialist.SpecialistData", b =>
                 {
@@ -520,6 +538,21 @@ namespace EUseControl.DataAccess.Migrations
                     b.HasIndex("SpecialistId");
 
                     b.ToTable("TimeSlots");
+                });
+
+            modelBuilder.Entity("ServiceDataSpecialistData", b =>
+                {
+                    b.HasOne("eUseControl.Domain.Entities.services.ServiceData", null)
+                        .WithMany()
+                        .HasForeignKey("ServicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eUseControl.Domain.Entities.Specialist.SpecialistData", null)
+                        .WithMany()
+                        .HasForeignKey("SpecialistDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("eUseControl.Domain.Entities.Specialist.SpecialistData", b =>
