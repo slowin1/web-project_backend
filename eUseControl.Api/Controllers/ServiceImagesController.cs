@@ -26,13 +26,30 @@ public class ServiceImagesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateServiceImageDto dto) => Ok(await _serviceImageFlow.CreateAsync(dto));
+    public async Task<IActionResult> Create([FromBody] CreateServiceImageDto dto)
+    {
+        try
+        {
+            return Ok(await _serviceImageFlow.CreateAsync(dto));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(string id, [FromBody] UpdateServiceImageDto dto)
     {
-        var image = await _serviceImageFlow.UpdateAsync(id, dto);
-        return image is null ? NotFound() : Ok(image);
+        try
+        {
+            var image = await _serviceImageFlow.UpdateAsync(id, dto);
+            return image is null ? NotFound() : Ok(image);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete("{id}")]

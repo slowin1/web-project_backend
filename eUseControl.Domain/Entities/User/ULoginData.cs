@@ -18,5 +18,24 @@ public class ULoginData
     [Required]
     [DataType(DataType.DateTime)]
     public DateTime LoginDataTime { get; set; }
-    
-}
+
+    [StringLength(80)]
+    public string VisitorId { get; set; } = string.Empty;
+
+    [StringLength(240)]
+    public string PagePath { get; set; } = string.Empty;
+
+    [StringLength(40)]
+    public string Source { get; set; } = string.Empty;
+
+    [StringLength(40)]
+    public string Device { get; set; } = string.Empty;
+
+    [StringLength(40)]
+    public string Role { get; set; } = string.Empty;
+
+    public DateTime? LogoutDataTime { get; set; }
+
+    public int? SessionDurationSeconds { get; set; }
+
+} 
