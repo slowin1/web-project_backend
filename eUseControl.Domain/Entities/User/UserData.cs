@@ -1,3 +1,4 @@
+using eUseControl.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using eUseControl.Domain.Entities.services;
@@ -33,7 +34,10 @@ public class UserData
         //время регистрации 
         [DataType(DataType.DateTime)]
         public DateTime RegisteredOn { get; set; }
-        
+
+        //роль пользователя
+        public UserRole Role { get; set; } = UserRole.Client;
+
         public ICollection<ServiceBookingData> ServiceBookingData { get; set; } = new List<ServiceBookingData>();
     
 }

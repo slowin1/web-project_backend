@@ -47,6 +47,22 @@ public class UsersController : ControllerBase
         return user is null ? NotFound() : Ok(user);
     }
 
+    [HttpPut("{id}/role")]
+    public async Task<IActionResult> UpdateRole(string id, [FromBody] UpdateUserRoleDto dto)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        try
+        {
+            var user = await _userFlow.UpdateRoleAsync(id, dto);
+            return user is null ? NotFound() : Ok(user);
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
     {

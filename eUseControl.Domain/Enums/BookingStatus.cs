@@ -9,5 +9,6 @@ public enum BookingStatus
     
     // клиент не пришел на услугу  
     NoShow = 4,
+    Rejected = 5,
         
 }

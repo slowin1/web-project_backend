@@ -15,7 +15,7 @@ public class JwtService
         _config = config;
     }
 
-    public string GenerateToken(string userId, string userName)
+    public string GenerateToken(string userId, string userName, int role = 1)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -23,7 +23,8 @@ public class JwtService
         var claims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, userId),
-            new Claim(ClaimTypes.Name, userName)
+            new Claim(ClaimTypes.Name, userName),
+            new Claim(ClaimTypes.Role, role.ToString())
         };
 
         var lifetimeStr = _config["Jwt:Lifetime"];

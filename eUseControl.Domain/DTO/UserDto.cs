@@ -1,3 +1,5 @@
+using eUseControl.Domain.Enums;
+
 namespace eUseControl.Domain.DTOs;
 
 public class CreateUserDto
@@ -18,6 +20,11 @@ public class UpdateUserDto
     public string Phone { get; set; } = string.Empty;
 }
 
+public class UpdateUserRoleDto
+{
+    public UserRole Role { get; set; }
+}
+
 public class UserResponseDto
 {
     public string Id { get; set; } = string.Empty;
@@ -28,4 +35,5 @@ public class UserResponseDto
     public string Phone { get; set; } = string.Empty;
     public DateTime RegisteredOn { get; set; }
     public string? Token { get; set; }
+    public int Role { get; set; }
 }

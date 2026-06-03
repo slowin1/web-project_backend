@@ -3,6 +3,7 @@ using System.Text;
 using EUseControl.DataAccess.Context;
 using eUseControl.BussinessLogic.Core;
 using eUseControl.BussinessLogic.Functions.Auth;
+using eUseControl.BussinessLogic.Functions.ContentItems;
 using eUseControl.BussinessLogic.Functions.LoginLogs;
 using eUseControl.BussinessLogic.Functions.ServiceBookings;
 using eUseControl.BussinessLogic.Functions.ServiceCategories;
@@ -28,7 +29,11 @@ builder.Services.AddCors(options =>
                 "http://localhost:5173",
                 "https://localhost:5173",
                 "http://127.0.0.1:5173",
-                "https://127.0.0.1:5173")
+                "https://127.0.0.1:5173",
+                "http://localhost:5174",
+                "https://localhost:5174",
+                "http://127.0.0.1:5174",
+                "https://127.0.0.1:5174")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -81,6 +86,7 @@ builder.Services.AddScoped<IServiceBookingFlow, ServiceBookingFlow>();
 builder.Services.AddScoped<IServiceTimeSlotFlow, ServiceTimeSlotFlow>();
 builder.Services.AddScoped<IServiceImageFlow, ServiceImageFlow>();
 builder.Services.AddScoped<ILoginLogFlow, LoginLogFlow>();
+builder.Services.AddScoped<IContentItemFlow, ContentItemFlow>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

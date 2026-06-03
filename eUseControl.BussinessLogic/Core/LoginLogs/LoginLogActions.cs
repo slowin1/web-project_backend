@@ -31,9 +31,16 @@ public class LoginLogActions
         var log = new ULoginData
         {
             Id = Guid.NewGuid().ToString(),
-            UserIp = dto.UserIp.Trim(),
-            LoginIp = dto.LoginIp.Trim(),
-            LoginDataTime = dto.LoginDataTime
+            UserIp = Normalize(dto.UserIp, 15),
+            LoginIp = Normalize(dto.LoginIp, 15),
+            LoginDataTime = NormalizeDate(dto.LoginDataTime) ?? DateTime.UtcNow,
+            VisitorId = Normalize(dto.VisitorId, 80),
+            PagePath = Normalize(dto.PagePath, 240),
+            Source = Normalize(dto.Source, 40),
+            Device = Normalize(dto.Device, 40),
+            Role = Normalize(dto.Role, 40),
+            LogoutDataTime = NormalizeDate(dto.LogoutDataTime),
+            SessionDurationSeconds = NormalizeDuration(dto.SessionDurationSeconds)
         };
 
         _context.LoginLogs.Add(log);
@@ -50,9 +57,16 @@ public class LoginLogActions
             return null;
         }
 
-        log.UserIp = dto.UserIp.Trim();
-        log.LoginIp = dto.LoginIp.Trim();
-        log.LoginDataTime = dto.LoginDataTime;
+        log.UserIp = Normalize(dto.UserIp, 15);
+        log.LoginIp = Normalize(dto.LoginIp, 15);
+        log.LoginDataTime = NormalizeDate(dto.LoginDataTime) ?? log.LoginDataTime;
+        log.VisitorId = Normalize(dto.VisitorId, 80);
+        log.PagePath = Normalize(dto.PagePath, 240);
+        log.Source = Normalize(dto.Source, 40);
+        log.Device = Normalize(dto.Device, 40);
+        log.Role = Normalize(dto.Role, 40);
+        log.LogoutDataTime = NormalizeDate(dto.LogoutDataTime);
+        log.SessionDurationSeconds = NormalizeDuration(dto.SessionDurationSeconds);
 
         await _context.SaveChangesAsync();
         return MapLog(log);
@@ -78,7 +92,42 @@ public class LoginLogActions
             Id = log.Id,
             UserIp = log.UserIp,
             LoginIp = log.LoginIp,
-            LoginDataTime = log.LoginDataTime
+            LoginDataTime = log.LoginDataTime,
+            VisitorId = log.VisitorId,
+            PagePath = log.PagePath,
+            Source = log.Source,
+            Device = log.Device,
+            Role = log.Role,
+            LogoutDataTime = log.LogoutDataTime,
+            SessionDurationSeconds = log.SessionDurationSeconds
         };
+    }
+
+    private static string Normalize(string? value, int maxLength)
+    {
+        var normalized = (value ?? string.Empty).Trim();
+        return normalized.Length <= maxLength ? normalized : normalized[..maxLength];
+    }
+
+    private static DateTime? NormalizeDate(DateTime? value)
+    {
+        if (value is null || value == default)
+        {
+            return null;
+        }
+
+        return value.Value.Kind == DateTimeKind.Utc
+            ? value.Value
+            : DateTime.SpecifyKind(value.Value, DateTimeKind.Utc);
+    }
+
+    private static int? NormalizeDuration(int? value)
+    {
+        if (value is null)
+        {
+            return null;
+        }
+
+        return Math.Max(value.Value, 0);
     }
 }

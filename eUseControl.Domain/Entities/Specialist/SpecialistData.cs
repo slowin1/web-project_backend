@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 
 using eUseControl.Domain.Entities.services;
+using eUseControl.Domain.Entities.User;
 
 namespace eUseControl.Domain.Entities.Specialist;
 
@@ -11,6 +12,9 @@ public class SpecialistData
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public string Id { get; set; } = string.Empty;
+
+    public string? UserId { get; set; }
+    public UserData? User { get; set; }
     
     [Required]
     [StringLength(50), MinLength(2)]
@@ -33,7 +37,5 @@ public class SpecialistData
     //на случай если мастер вышел в отпуск
     public bool IsActive { get; set; } = true;
     
-    //какие услуги умеет делать мастер
-    public ICollection<ServiceData> Services { get; set; } = new List<ServiceData>();
     public ICollection<ServiceTimeSlot> TimeSlots { get; set; } = new List<ServiceTimeSlot>();
 }
