@@ -26,13 +26,30 @@ public class SpecialistsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateSpecialistDto dto) => Ok(await _specialistFlow.CreateAsync(dto));
+    public async Task<IActionResult> Create([FromBody] CreateSpecialistDto dto)
+    {
+        try
+        {
+            return Ok(await _specialistFlow.CreateAsync(dto));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(string id, [FromBody] UpdateSpecialistDto dto)
     {
-        var specialist = await _specialistFlow.UpdateAsync(id, dto);
-        return specialist is null ? NotFound() : Ok(specialist);
+        try
+        {
+            var specialist = await _specialistFlow.UpdateAsync(id, dto);
+            return specialist is null ? NotFound() : Ok(specialist);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete("{id}")]

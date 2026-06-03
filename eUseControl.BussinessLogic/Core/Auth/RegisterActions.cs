@@ -1,6 +1,7 @@
 using EUseControl.DataAccess.Context;
 using eUseControl.Domain.DTOs;
 using eUseControl.Domain.Entities.User;
+using eUseControl.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace eUseControl.BussinessLogic.Core.Auth;
@@ -35,7 +36,8 @@ public class RegisterActions
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return MapUser(user, _jwtService.GenerateToken(user.Id, user.UserName));
+        var role = GetValidRole(user.Role);
+        return MapUser(user, _jwtService.GenerateToken(user.Id, user.UserName, (int)role));
     }
 
     public async Task<UserResponseDto?> LoginAsync(UserLoginDto dto)
@@ -63,7 +65,7 @@ public class RegisterActions
             return null;
         }
 
-        return MapUser(user, _jwtService.GenerateToken(user.Id, user.UserName));
+        return MapUser(user, _jwtService.GenerateToken(user.Id, user.UserName, (int)user.Role));
     }
 
     private async Task ValidateRegisterAsync(UserRegisterDto dto)
@@ -104,7 +106,13 @@ public class RegisterActions
             Email = user.Email,
             Phone = user.Phone,
             RegisteredOn = user.RegisteredOn,
-            Token = token
+            Token = token,
+            Role = (int)GetValidRole(user.Role)
         };
+    }
+
+    private static UserRole GetValidRole(UserRole role)
+    {
+        return Enum.IsDefined(typeof(UserRole), role) ? role : UserRole.Client;
     }
 }

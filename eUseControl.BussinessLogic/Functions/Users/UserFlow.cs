@@ -10,6 +10,7 @@ public interface IUserFlow
     Task<UserResponseDto?> GetByIdAsync(string id);
     Task<UserResponseDto> CreateAsync(CreateUserDto dto);
     Task<UserResponseDto?> UpdateAsync(string id, UpdateUserDto dto);
+    Task<UserResponseDto?> UpdateRoleAsync(string id, UpdateUserRoleDto dto);
     Task<bool> DeleteAsync(string id);
 }
 
