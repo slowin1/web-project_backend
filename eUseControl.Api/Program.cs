@@ -137,8 +137,9 @@ app.UseSwaggerUI(c =>
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapGet("/", () => Results.Redirect("/swagger"));
-app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+app.MapMethods("/", ["GET"], () => Results.Redirect("/swagger"));
+app.MapMethods("/", ["HEAD"], () => Results.Ok());
+app.MapMethods("/health", ["GET", "HEAD"], () => Results.Ok(new { status = "ok" }));
 app.MapControllers();
 
 app.Run();
