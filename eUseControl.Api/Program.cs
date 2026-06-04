@@ -21,19 +21,37 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var localFrontendOrigins = new[]
+{
+    "http://localhost:5173",
+    "https://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://127.0.0.1:5173",
+    "http://localhost:5174",
+    "https://localhost:5174",
+    "http://127.0.0.1:5174",
+    "https://127.0.0.1:5174"
+};
+
+var configuredFrontendOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>() ?? Array.Empty<string>();
+
+var frontendUrlsFromEnvironment = (builder.Configuration["FRONTEND_URLS"] ?? string.Empty)
+    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+var allowedFrontendOrigins = localFrontendOrigins
+    .Concat(configuredFrontendOrigins)
+    .Concat(frontendUrlsFromEnvironment)
+    .Where(origin => !string.IsNullOrWhiteSpace(origin))
+    .Distinct(StringComparer.OrdinalIgnoreCase)
+    .ToArray();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins(
-                "http://localhost:5173",
-                "https://localhost:5173",
-                "http://127.0.0.1:5173",
-                "https://127.0.0.1:5173",
-                "http://localhost:5174",
-                "https://localhost:5174",
-                "http://127.0.0.1:5174",
-                "https://127.0.0.1:5174")
+        policy.WithOrigins(allowedFrontendOrigins)
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -120,6 +138,7 @@ app.UseSwaggerUI(c =>
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapGet("/", () => Results.Redirect("/swagger"));
+app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 app.MapControllers();
 
 app.Run();

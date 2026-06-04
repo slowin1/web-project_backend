@@ -1,0 +1,7 @@
+**/bin/
+**/obj/
+.git/
+.idea/
+.DS_Store
+eUseControl.Api/appsettings.json
+eUseControl.Api/appsettings.Development.json
