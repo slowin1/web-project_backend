@@ -7,6 +7,7 @@ namespace eUseControl.BussinessLogic.Functions.SpecialistReviews;
 public interface ISpecialistReviewFlow
 {
     Task<IEnumerable<SpecialistReviewResponseDto>> GetAllAsync();
+    Task<IEnumerable<SpecialistReviewResponseDto>> GetBySpecialistAsync(string specialistId);
     Task<SpecialistReviewResponseDto?> GetByIdAsync(string id);
     Task<SpecialistReviewResponseDto> CreateAsync(CreateSpecialistReviewDto dto);
     Task<SpecialistReviewResponseDto?> UpdateAsync(string id, UpdateSpecialistReviewDto dto);

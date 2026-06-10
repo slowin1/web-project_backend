@@ -18,6 +18,10 @@ public class SpecialistReviewsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll() => Ok(await _specialistReviewFlow.GetAllAsync());
 
+    [HttpGet("specialist/{specialistId}")]
+    public async Task<IActionResult> GetBySpecialist(string specialistId) =>
+        Ok(await _specialistReviewFlow.GetBySpecialistAsync(specialistId));
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
@@ -26,13 +30,30 @@ public class SpecialistReviewsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateSpecialistReviewDto dto) => Ok(await _specialistReviewFlow.CreateAsync(dto));
+    public async Task<IActionResult> Create([FromBody] CreateSpecialistReviewDto dto)
+    {
+        try
+        {
+            return Ok(await _specialistReviewFlow.CreateAsync(dto));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(string id, [FromBody] UpdateSpecialistReviewDto dto)
     {
-        var review = await _specialistReviewFlow.UpdateAsync(id, dto);
-        return review is null ? NotFound() : Ok(review);
+        try
+        {
+            var review = await _specialistReviewFlow.UpdateAsync(id, dto);
+            return review is null ? NotFound() : Ok(review);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpDelete("{id}")]
