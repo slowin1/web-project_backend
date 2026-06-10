@@ -391,7 +391,10 @@ public class ServiceBookingActions
             return null;
         }
 
-        var specialist = await _context.Specialists.AsNoTracking().FirstOrDefaultAsync(s => s.FullName == specialistName);
+        var normalizedSpecialistName = specialistName.Trim().ToLower();
+        var specialist = await _context.Specialists
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.FullName.ToLower() == normalizedSpecialistName);
         return specialist?.Id;
     }
 
@@ -478,7 +481,7 @@ public class ServiceBookingActions
 
         var specialistServices = await _context.Services
             .AsNoTracking()
-            .Where(s => s.NameOfMaster == specialistName)
+            .Where(s => s.NameOfMaster.ToLower() == specialistName.Trim().ToLower())
             .Select(s => s.Id)
             .ToListAsync();
 
@@ -572,7 +575,9 @@ public class ServiceBookingActions
 
         return string.IsNullOrWhiteSpace(specialistName)
             ? null
-            : await _context.Specialists.AsNoTracking().FirstOrDefaultAsync(s => s.FullName == specialistName);
+            : await _context.Specialists
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.FullName.ToLower() == specialistName.Trim().ToLower());
     }
 
     private async Task<ServiceData?> ResolveServiceForBookingAsync(ServiceBookingData booking)
@@ -586,7 +591,9 @@ public class ServiceBookingActions
         var serviceName = ParseServiceName(booking);
         return string.IsNullOrWhiteSpace(serviceName)
             ? null
-            : await _context.Services.AsNoTracking().FirstOrDefaultAsync(s => s.NameOfService == serviceName);
+            : await _context.Services
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.NameOfService.ToLower() == serviceName.Trim().ToLower());
     }
 
     private static decimal ResolveCompletedPrice(CompletedSpecialistServiceData item, IReadOnlyCollection<ServiceData> services)
